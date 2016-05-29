@@ -37,4 +37,8 @@ Misc:
   aewm.  It's a good example for learning about writing a window manager.
 
       http://www.red-bean.com/~decklin/aewm/
+      
+Bug:
+  chrome don't like tinywm or reverse.
+  firefox works fine, but noscript don't like tinywm.
 
