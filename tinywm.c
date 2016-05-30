@@ -32,7 +32,6 @@ int main(void)
   XGrabButton(dpy, 3, Mod1Mask, DefaultRootWindow(dpy), True,
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
 
-  start.subwindow = None;
   for(;;)
   {
     XNextEvent(dpy, &ev);
