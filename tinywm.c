@@ -14,13 +14,22 @@ int main(void)
   XWindowAttributes attr;
   XButtonEvent start{0};
   XEvent ev;
+  Window w = None;
    
   if(!(dpy = XOpenDisplay(0x0))) return 1;
 
   KeyCode RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
+  KeyCode FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
+  KeyCode HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
   KeyCode EK = XKeysymToKeycode(dpy, XK_Escape);
 
   XGrabKey(dpy, RK, Mod1Mask,   DefaultRootWindow(dpy), True, 
+    GrabModeAsync, GrabModeAsync);
+
+  XGrabKey(dpy, FK, Mod1Mask,   DefaultRootWindow(dpy), True, 
+    GrabModeAsync, GrabModeAsync);
+
+  XGrabKey(dpy, HK, Mod1Mask,   DefaultRootWindow(dpy), True, 
     GrabModeAsync, GrabModeAsync);
 
   XGrabKey(dpy, EK, Mod1Mask,   DefaultRootWindow(dpy), True, 
@@ -40,6 +49,24 @@ int main(void)
     case KeyPress:
       if(ev.xkey.state & Mod1Mask && RK == ev.xkey.keycode)
         system("dmenu_run &");
+      else 
+      if(ev.xkey.state & Mod1Mask && FK == ev.xkey.keycode && ev.xkey.subwindow != None)
+        XRaiseWindow(dpy, ev.xkey.subwindow);
+      else 
+      if(ev.xkey.state & Mod1Mask && HK == ev.xkey.keycode)
+      {
+        if(ev.xkey.subwindow != None && w == None)
+        {
+          w = ev.xkey.subwindow;
+          XUnmapWindow(dpy, ev.xkey.subwindow);
+        }
+        else 
+        if(ev.xkey.subwindow == None && w != None)
+        {
+          XMapWindow(dpy, w);
+          w = None;
+        }
+      }
       else 
       if(ev.xkey.state & Mod1Mask && EK == ev.xkey.keycode)
         return 0;
