@@ -20,11 +20,11 @@ int main(void)
   KeyCode RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
   KeyCode EK = XKeysymToKeycode(dpy, XK_Escape);
 
-  XGrabKey(dpy, RK, Mod1Mask,
-    DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, RK, Mod1Mask,   DefaultRootWindow(dpy), True, 
+    GrabModeAsync, GrabModeAsync);
 
-  XGrabKey(dpy, EK, Mod1Mask,
-    DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, EK, Mod1Mask,   DefaultRootWindow(dpy), True, 
+    GrabModeAsync, GrabModeAsync);
 
   XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
