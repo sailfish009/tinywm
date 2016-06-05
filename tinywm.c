@@ -15,6 +15,7 @@ int main(void)
   XButtonEvent start{0};
   XEvent ev;
   Window w = None;
+  int close = 0;
    
   if(!(dpy = XOpenDisplay(0x0))) return 1;
 
@@ -57,8 +58,12 @@ int main(void)
       if(ev.xkey.state & Mod1Mask && FK == ev.xkey.keycode && ev.xkey.subwindow != None)
         XRaiseWindow(dpy, ev.xkey.subwindow);
       else 
-      if(ev.xkey.state & Mod1Mask && XK == ev.xkey.keycode && ev.xkey.subwindow != None)
-        XDestroyWindow(dpy, ev.xkey.subwindow);
+      if(close == 0 && ev.xkey.state & Mod1Mask && XK == ev.xkey.keycode && ev.xkey.subwindow != None)
+      {
+	close = 1;
+        XKillClient(dpy, ev.xkey.subwindow);
+        ev.xkey.subwindow = None;
+      }
       else 
       if(ev.xkey.state & Mod1Mask && HK == ev.xkey.keycode)
       {
@@ -77,6 +82,9 @@ int main(void)
       else 
       if(ev.xkey.state & Mod1Mask && EK == ev.xkey.keycode)
         return 0;
+    case KeyRelease:
+      close = 0;
+      break;
     case ButtonPress:
       if(ev.xbutton.subwindow != None)
       {
