@@ -43,7 +43,7 @@ void SetInput(Display *dpy)
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
 }
 
-int ProcessKey(const XEvent &ev, bool *close)
+inline int ProcessKey(const XEvent &ev, bool *close)
 {
   printf("mod: %d, key: %d\n", ev.xkey.state, ev.xkey.keycode);
   switch(ev.xkey.state + ev.xkey.keycode)
@@ -87,7 +87,7 @@ int ProcessKey(const XEvent &ev, bool *close)
   return 1;
 }
 
-void ProcessMouse(const XEvent &ev)
+inline void ProcessMouse(const XEvent &ev)
 {
   switch(ev.type)
   {
