@@ -52,7 +52,7 @@ int ProcessKey(const XEvent &ev, bool *close)
   case 35:
     system("dmenu_run &");
     break;
-  //alt + h : 8 + 41
+  //alt + f : 8 + 41
   case 49:
     if(ev.xkey.subwindow != None)
       XRaiseWindow(dpy, ev.xkey.subwindow); 
