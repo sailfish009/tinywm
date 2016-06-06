@@ -5,101 +5,30 @@
 
 #include "tinywm.h"
 
-#if 0
-bool processInput2(char input2)
-{
-  switch(input2)
-  {
-   case 'A':
-   {  
-      // blah
-   }
-    break;
-}
-
-bool processInput1(char input1)
-{
-  switch(input1)
-  {
-   case 'A':
-      processInput2(input2);
-      break;
-}
-#endif
-
 int main(void)
 {
-  Display * dpy;
-  XWindowAttributes attr;
-  XButtonEvent start{0};
   XEvent ev;
-  Window w = None;
-  int close = 0;
+  bool close = 0;
    
-  if(!(dpy = XOpenDisplay(0x0))) return 1;
+  if(!(dpy = XOpenDisplay(0x0))) 
+    return 1;
+
+  int run = 1;
 
   SetInput(dpy);
 
-  for(;;)
+  for(;run;)
   {
     XNextEvent(dpy, &ev);
     switch(ev.type)
     {
     case KeyPress:
-      if(ev.xkey.state & Mod1Mask && RK == ev.xkey.keycode)
-        system("dmenu_run &");
-      else 
-      if(ev.xkey.state & Mod1Mask && FK == ev.xkey.keycode && ev.xkey.subwindow != None)
-        XRaiseWindow(dpy, ev.xkey.subwindow);
-      else 
-      if(close == 0 && ev.xkey.state & Mod1Mask && XK == ev.xkey.keycode && ev.xkey.subwindow != None)
-      {
-	close = 1;
-        XKillClient(dpy, ev.xkey.subwindow);
-        ev.xkey.subwindow = None;
-      }
-      else 
-      if(ev.xkey.state & Mod1Mask && HK == ev.xkey.keycode)
-      {
-        if(ev.xkey.subwindow != None && w == None)
-        {
-          w = ev.xkey.subwindow;
-          XUnmapWindow(dpy, ev.xkey.subwindow);
-        }
-        else 
-        if(ev.xkey.subwindow == None && w != None)
-        {
-          XMapWindow(dpy, w);
-          w = None;
-        }
-      }
-      else 
-      if(ev.xkey.state & Mod1Mask && EK == ev.xkey.keycode)
-        return 0;
+      run = ProcessKey(ev, &close);
     case KeyRelease:
       close = 0;
       break;
-    case ButtonPress:
-      if(ev.xbutton.subwindow != None)
-      {
-        XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
-        start = ev.xbutton;
-      }
-      break;
-    case MotionNotify:
-      if(start.subwindow != None)
-      {
-        int xdiff = ev.xbutton.x_root - start.x_root;
-        int ydiff = ev.xbutton.y_root - start.y_root;
-        XMoveResizeWindow(dpy, start.subwindow,
-          attr.x + (start.button==1 ? xdiff : 0),
-          attr.y + (start.button==1 ? ydiff : 0),
-          std::max(1, attr.width + (start.button==3 ? xdiff : 0)),
-          std::max(1, attr.height + (start.button==3 ? ydiff : 0)));
-      }
-      break;
-    case ButtonRelease:
-      start.subwindow = None;
+    default:
+      ProcessMouse(ev);
       break;
     }
   }
