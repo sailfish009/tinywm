@@ -3,6 +3,8 @@
 #include <X11/keysym.h>
 #include <algorithm>
 
+
+KeyCode CK;
 KeyCode XK;
 KeyCode RK;
 KeyCode HK;
@@ -11,12 +13,16 @@ KeyCode EK;
 
 void SetInput(Display *dpy)
 {
+  CK = XKeysymToKeycode(dpy, XStringToKeysym("c"));
   XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
   RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
   HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
   FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
   EK = XKeysymToKeycode(dpy, XK_Escape);
 
+  XGrabKey(dpy, CK, Mod1Mask,   DefaultRootWindow(dpy), True, 
+    GrabModeAsync, GrabModeAsync);
+    
   XGrabKey(dpy, XK, Mod1Mask,   DefaultRootWindow(dpy), True, 
     GrabModeAsync, GrabModeAsync);
 

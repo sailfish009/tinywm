@@ -5,6 +5,28 @@
 
 #include "tinywm.h"
 
+#if 0
+bool processInput2(char input2)
+{
+  switch(input2)
+  {
+   case 'A':
+   {  
+      // blah
+   }
+    break;
+}
+
+bool processInput1(char input1)
+{
+  switch(input1)
+  {
+   case 'A':
+      processInput2(input2);
+      break;
+}
+#endif
+
 int main(void)
 {
   Display * dpy;
