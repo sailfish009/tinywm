@@ -3,10 +3,7 @@
  * This software is in the public domain
  * and is provided AS IS, with NO WARRANTY. */
 
-#include <stdlib.h>
-#include <X11/Xlib.h>
-#include <X11/keysym.h>
-#include <algorithm>
+#include "tinywm.h"
 
 int main(void)
 {
@@ -19,32 +16,7 @@ int main(void)
    
   if(!(dpy = XOpenDisplay(0x0))) return 1;
 
-  KeyCode XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
-  KeyCode RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
-  KeyCode HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
-  KeyCode FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
-  KeyCode EK = XKeysymToKeycode(dpy, XK_Escape);
-
-  XGrabKey(dpy, XK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, RK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, HK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, FK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, EK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
-
-  XGrabButton(dpy, 3, Mod1Mask, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
+  SetInput(dpy);
 
   for(;;)
   {
