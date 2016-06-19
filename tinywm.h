@@ -45,19 +45,19 @@ void SetInput(Display *dpy)
 
 inline int ProcessKey(const XEvent &ev, bool *close)
 {
-  switch(ev.xkey.state + ev.xkey.keycode)
+  switch(ev.xkey.keycode)
   {
   //alt + r : 8 + 27
-  case 35:
+  case 27:
     system("dmenu_run &");
     break;
   //alt + f : 8 + 41
-  case 49:
+  case 41:
     if(ev.xkey.subwindow != None)
       XRaiseWindow(dpy, ev.xkey.subwindow); 
     break;
   //alt + h : 8 + 43
-  case 51:
+  case 43:
     if(ev.xkey.subwindow != None && w == None)
     {
       w = ev.xkey.subwindow;
@@ -71,7 +71,7 @@ inline int ProcessKey(const XEvent &ev, bool *close)
     }
     break;
   //alt + x : 8 + 53
-  case 61:
+  case 53:
     if(ev.xkey.subwindow != None && *close == 0)
     {
       *close = 1;
@@ -79,7 +79,7 @@ inline int ProcessKey(const XEvent &ev, bool *close)
     }
     break;
   //alt + esc : 8 + 9
-  case 17:
+  case 9:
     return 0;
   }
   
