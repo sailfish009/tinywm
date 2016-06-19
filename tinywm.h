@@ -45,7 +45,6 @@ void SetInput(Display *dpy)
 
 inline int ProcessKey(const XEvent &ev, bool *close)
 {
-  printf("mod: %d, key: %d\n", ev.xkey.state, ev.xkey.keycode);
   switch(ev.xkey.state + ev.xkey.keycode)
   {
   //alt + r : 8 + 27
