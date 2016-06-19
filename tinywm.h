@@ -79,7 +79,7 @@ inline int ProcessKey(const XEvent &ev, bool *close)
       XKillClient(dpy, ev.xkey.subwindow);
     }
     break;
-  //alt + x : 8 + 9
+  //alt + esc : 8 + 9
   case 17:
     return 0;
   }
