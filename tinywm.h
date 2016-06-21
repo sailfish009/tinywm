@@ -7,10 +7,10 @@ Display * dpy;
 Window w = None;
 XWindowAttributes attr;
 XButtonEvent start{0};
-KeyCode CK, XK, RK, HK, FK, EK;
 
 void SetInput(Display *dpy)
 {
+  KeyCode CK, XK, RK, HK, FK, EK;
   CK = XKeysymToKeycode(dpy, XStringToKeysym("c"));
   XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
   RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
