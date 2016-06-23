@@ -7,6 +7,7 @@ Display * dpy;
 Window w = None;
 XWindowAttributes attr;
 XButtonEvent start{0};
+bool close;
 
 void SetInput(Display *dpy)
 {
@@ -43,7 +44,7 @@ void SetInput(Display *dpy)
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
 }
 
-inline int ProcessKey(const XEvent &ev, bool *close)
+inline int ProcessKey(const XEvent &ev)
 {
   switch(ev.xkey.keycode)
   {
@@ -72,9 +73,9 @@ inline int ProcessKey(const XEvent &ev, bool *close)
     break;
   //alt + x : 8 + 53
   case 53:
-    if(ev.xkey.subwindow != None && *close == 0)
+    if(ev.xkey.subwindow != None && close == 0)
     {
-      *close = 1;
+      close = 1;
       XKillClient(dpy, ev.xkey.subwindow);
     }
     break;

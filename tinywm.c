@@ -7,13 +7,13 @@
 
 int main(void)
 {
+  int run(1);
   XEvent ev;
-  bool close = 0;
+  close = 0;
    
   if(!(dpy = XOpenDisplay(0x0))) 
     return 1;
 
-  int run = 1;
 
   SetInput(dpy);
 
@@ -23,7 +23,7 @@ int main(void)
     switch(ev.type)
     {
     case KeyPress:
-      run = ProcessKey(ev, &close);
+      run = ProcessKey(ev);
     case KeyRelease:
       close = 0;
       break;
