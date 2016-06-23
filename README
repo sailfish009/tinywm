@@ -21,6 +21,7 @@ Usage:
   Alt+F : raise focused window
   Alt+R : run dmenu             http://tools.suckless.org/dmenu/
   Alt+H : show/hide window
+  Alt+Z : zoom window
   Alt+X : kill window
   Alt+Esc : exit tinywm
 
