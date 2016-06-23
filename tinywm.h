@@ -4,48 +4,39 @@
 #include <algorithm>
 
 Display * dpy;
-Window w = None;
+Window w = None, zoom = None;
 XWindowAttributes attr;
 XButtonEvent start{0};
+unsigned short rect[4]={0};
 bool close;
 
 void SetInput(Display *dpy)
 {
-  KeyCode CK, XK, RK, HK, FK, EK;
+  KeyCode CK, EK, FK, HK, RK, XK, ZK;
   CK = XKeysymToKeycode(dpy, XStringToKeysym("c"));
-  XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
-  RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
-  HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
-  FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
   EK = XKeysymToKeycode(dpy, XK_Escape);
+  FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
+  HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
+  RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
+  XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
+  ZK = XKeysymToKeycode(dpy, XStringToKeysym("z"));
 
-  XGrabKey(dpy, CK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-    
-  XGrabKey(dpy, XK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, RK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, HK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, FK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
-  XGrabKey(dpy, EK, Mod1Mask,   DefaultRootWindow(dpy), True, 
-    GrabModeAsync, GrabModeAsync);
-
+  XGrabKey(dpy, CK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, EK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, FK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, HK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, RK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, ZK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
-
   XGrabButton(dpy, 3, Mod1Mask, DefaultRootWindow(dpy), True,
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
 }
 
 inline int ProcessKey(const XEvent &ev)
 {
+  //printf("keycode: %d\n", ev.xkey.keycode);
   switch(ev.xkey.keycode)
   {
   //alt + r : 8 + 27
@@ -69,6 +60,25 @@ inline int ProcessKey(const XEvent &ev)
     {
       XMapWindow(dpy, w);
       w = None;
+    }
+    break;
+  //alt + z : 8 + 52
+  case 52:
+    if(ev.xkey.subwindow != None && zoom == None)
+    {
+      zoom = ev.xkey.subwindow;
+      XGetWindowAttributes(dpy, zoom, &attr);
+      rect[0]=attr.x;
+      rect[1]=attr.y;
+      rect[2]=attr.width;
+      rect[3]=attr.height;
+      XMoveResizeWindow(dpy,zoom,0,0,1920,1080);
+    }
+    else
+    if(zoom != None)
+    {
+      XMoveResizeWindow(dpy,zoom,rect[0],rect[1],rect[2],rect[3]);
+      zoom = None;
     }
     break;
   //alt + x : 8 + 53
