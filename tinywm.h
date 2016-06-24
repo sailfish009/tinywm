@@ -12,12 +12,13 @@ bool close;
 
 void SetInput(Display *dpy)
 {
-  KeyCode CK, EK, FK, HK, RK, XK, ZK;
+  KeyCode CK, EK, FK, HK, RK, TK, XK, ZK;
   CK = XKeysymToKeycode(dpy, XStringToKeysym("c"));
   EK = XKeysymToKeycode(dpy, XK_Escape);
   FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
   HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
   RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
+  TK = XKeysymToKeycode(dpy, XK_Tab);
   XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
   ZK = XKeysymToKeycode(dpy, XStringToKeysym("z"));
 
@@ -26,6 +27,7 @@ void SetInput(Display *dpy)
   XGrabKey(dpy, FK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, HK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, RK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, TK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, XK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, ZK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
@@ -36,9 +38,13 @@ void SetInput(Display *dpy)
 
 inline int ProcessKey(const XEvent &ev)
 {
-  //printf("keycode: %d\n", ev.xkey.keycode);
+  printf("keycode: %d\n", ev.xkey.keycode);
   switch(ev.xkey.keycode)
   {
+  //alt + tab : 8 + 23
+  case 23:
+    //todo: swich focus in windows list
+    break;
   //alt + r : 8 + 27
   case 27:
     system("dmenu_run &");
