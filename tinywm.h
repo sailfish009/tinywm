@@ -2,6 +2,7 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <algorithm>
+#include <vector>
 
 Display * dpy;
 Window w = None, zoom = None;
@@ -9,6 +10,22 @@ XWindowAttributes attr;
 XButtonEvent start{0};
 unsigned short rect[4]={0};
 bool close;
+
+void ListWindow(std::vector<Window> &l)
+{
+  unsigned int cnt = 0;
+  Window r, p, *wlist;
+  Window root = RootWindow(dpy, DefaultScreen(dpy));
+  XWindowAttributes attr;
+
+  XQueryTree(dpy, root, &r, &p, &wlist, &cnt);
+  for(unsigned int i = 0; i < cnt; ++i)
+  {
+   XGetWindowAttributes(dpy, wlist[i], &attr);
+   if(attr.map_state == IsViewable)
+     l.push_back(wlist[i]);
+  }
+}
 
 void SetInput(Display *dpy)
 {
