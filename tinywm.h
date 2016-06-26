@@ -66,13 +66,11 @@ inline int ProcessKey(const XEvent &ev)
       ListWindow(list);
 
       for(Window w : list)
+      if(focus != w)
       {
-	if(focus != w)
-	{
-	  focus = w;  
-          XRaiseWindow(dpy, focus);
-	  break;
-	}
+	focus = w;  
+        XRaiseWindow(dpy, focus);
+        break;
       }
     }
     break;
