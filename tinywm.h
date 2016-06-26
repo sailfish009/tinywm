@@ -55,7 +55,7 @@ void SetInput(Display *dpy)
 
 inline int ProcessKey(const XEvent &ev)
 {
-  printf("keycode: %d\n", ev.xkey.keycode);
+  //printf("keycode: %d\n", ev.xkey.keycode);
   switch(ev.xkey.keycode)
   {
   //alt + tab : 8 + 23
@@ -79,7 +79,7 @@ inline int ProcessKey(const XEvent &ev)
       XUnmapWindow(dpy, ev.xkey.subwindow);
     }
     else 
-    if(ev.xkey.subwindow == None && w != None)
+    if(w != None)
     {
       XMapWindow(dpy, w);
       w = None;
