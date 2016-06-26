@@ -5,7 +5,7 @@
 #include <vector>
 
 Display * dpy;
-Window w = None, zoom = None;
+Window w = None, zoom = None, focus = None;
 XWindowAttributes attr;
 XButtonEvent start{0};
 unsigned short rect[4]={0};
@@ -61,6 +61,20 @@ inline int ProcessKey(const XEvent &ev)
   //alt + tab : 8 + 23
   case 23:
     //todo: swich focus in windows list
+    {
+      std::vector<Window> list;;
+      ListWindow(list);
+
+      for(Window w : list)
+      {
+	if(focus != w)
+	{
+	  focus = w;  
+          XRaiseWindow(dpy, focus);
+	  break;
+	}
+      }
+    }
     break;
   //alt + r : 8 + 27
   case 27:
