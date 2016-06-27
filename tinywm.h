@@ -57,7 +57,7 @@ void SetInput(Display *dpy)
 
 inline int ProcessKey(const XEvent &ev)
 {
-  printf("keycode: %d\n", ev.xkey.keycode);
+  //printf("keycode: %d\n", ev.xkey.keycode);
   switch(ev.xkey.keycode)
   {
   //alt + tab : 8 + 23
