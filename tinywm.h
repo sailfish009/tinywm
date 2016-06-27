@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <vector>
 
+#define MOUSE_FOCUS 1
+
 Display * dpy;
 Window w = None, zoom = None, focus = None;
 XWindowAttributes attr;
@@ -139,6 +141,12 @@ inline void ProcessMouse(const XEvent &ev)
   case ButtonPress:
     if(ev.xbutton.subwindow != None)
     {
+      #ifdef MOUSE_FOCUS
+      focus = ev.xbutton.subwindow; 
+      XRaiseWindow(dpy, focus);
+      XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
+      #endif
+
       XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
       start = ev.xbutton;
     }
