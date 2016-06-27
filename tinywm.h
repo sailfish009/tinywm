@@ -57,7 +57,7 @@ void SetInput(Display *dpy)
 
 inline int ProcessKey(const XEvent &ev)
 {
-  //printf("keycode: %d\n", ev.xkey.keycode);
+  printf("keycode: %d\n", ev.xkey.keycode);
   switch(ev.xkey.keycode)
   {
   //alt + tab : 8 + 23
@@ -125,6 +125,10 @@ inline int ProcessKey(const XEvent &ev)
       close = 1;
       XKillClient(dpy, ev.xkey.subwindow);
     }
+    break;
+  //alt + c : 8 + 54
+  case 54:
+    //todo: create little window
     break;
   //alt + esc : 8 + 9
   case 9:
