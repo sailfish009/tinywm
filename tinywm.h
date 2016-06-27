@@ -63,7 +63,7 @@ inline int ProcessKey(const XEvent &ev)
   //alt + tab : 8 + 23
   case 23:
     {
-      std::vector<Window> list;;
+      std::vector<Window> list;
       ListWindow(list);
 
       for(Window w : list)

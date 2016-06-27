@@ -10,8 +10,8 @@ basics.
 
 Files:
 
-  Makefile: highly advanced build system
-  tinywm.c: the code
+  Makefile           : highly advanced build system
+  tinywm.c, tinywm.h : the code
 
 Usage:
 
