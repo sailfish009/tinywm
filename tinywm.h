@@ -69,7 +69,7 @@ inline int ProcessKey(const XEvent &ev)
       {
 	focus = w;  
         XRaiseWindow(dpy, focus);
-	XSetInputFocus(dpy, focus, RevertToNone, CurrentTime);
+	XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
         break;
       }
     }
