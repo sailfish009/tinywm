@@ -60,7 +60,6 @@ inline int ProcessKey(const XEvent &ev)
   {
   //alt + tab : 8 + 23
   case 23:
-    //todo: swich focus in windows list
     {
       std::vector<Window> list;;
       ListWindow(list);
@@ -70,6 +69,7 @@ inline int ProcessKey(const XEvent &ev)
       {
 	focus = w;  
         XRaiseWindow(dpy, focus);
+	XSetInputFocus(dpy, focus, RevertToNone, CurrentTime);
         break;
       }
     }

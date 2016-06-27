@@ -18,11 +18,12 @@ Usage:
   Focus follows pointer.
   Alt+Button1, drag: interactive window move
   Alt+Button3, drag: interactive window resize
-  Alt+F : raise focused window
-  Alt+R : run dmenu             http://tools.suckless.org/dmenu/
-  Alt+H : show/hide window
-  Alt+Z : zoom window
-  Alt+X : kill window
+  Alt+F   : raise focused window
+  Alt+Tab : toggle window and set focus
+  Alt+R   : run dmenu             http://tools.suckless.org/dmenu/
+  Alt+H   : show/hide window
+  Alt+Z   : zoom window
+  Alt+X   : kill window
   Alt+Esc : exit tinywm
 
 Misc:
