@@ -42,3 +42,4 @@ Misc:
       
 Bug:
   now focus problem gone, when start, just hit alt + tab.
+  close one term, then close all term.
