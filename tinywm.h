@@ -4,7 +4,8 @@
 #include <algorithm>
 #include <vector>
 
-#define MOUSE_FOCUS 1
+#define SCREEN_WIDTH   1920
+#define SCREEN_HEIGHT  1080
 
 Display * dpy;
 Window w = None, zoom = None, focus = None;
@@ -12,6 +13,7 @@ XWindowAttributes attr;
 XButtonEvent start{0};
 unsigned short rect[4]={0};
 bool close;
+bool list_toggle;
 
 void ListWindow(std::vector<Window> &l)
 {
@@ -84,8 +86,18 @@ inline int ProcessKey(const XEvent &ev)
       switch(list.size())
       {
       case 2:
-        XMoveResizeWindow(dpy,list[0],0,0,1920/2-1,1080);
-        XMoveResizeWindow(dpy,list[1],1920/2,0,1920/2,1080);
+        if(list_toggle)
+	{
+	  list_toggle = false;
+          XMoveResizeWindow(dpy,list[1],0,0,SCREEN_WIDTH/2-1,SCREEN_HEIGHT);
+          XMoveResizeWindow(dpy,list[0],SCREEN_WIDTH/2,0,SCREEN_WIDTH/2,SCREEN_HEIGHT);
+	}
+	else
+	{
+	  list_toggle = true;
+          XMoveResizeWindow(dpy,list[0],0,0,SCREEN_WIDTH/2-1,SCREEN_HEIGHT);
+          XMoveResizeWindow(dpy,list[1],SCREEN_WIDTH/2,0,SCREEN_WIDTH/2,SCREEN_HEIGHT);
+	}
         break;
       }
     }
@@ -116,7 +128,7 @@ inline int ProcessKey(const XEvent &ev)
       rect[1]=attr.y;
       rect[2]=attr.width;
       rect[3]=attr.height;
-      XMoveResizeWindow(dpy,zoom,0,0,1920,1080);
+      XMoveResizeWindow(dpy,zoom,0,0,SCREEN_WIDTH,SCREEN_HEIGHT);
     }
     else
     if(zoom != None)
