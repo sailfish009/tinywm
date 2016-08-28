@@ -19,28 +19,27 @@ void ListWindow(std::vector<Window> &l)
   Window r, p, *wlist;
   Window root = RootWindow(dpy, DefaultScreen(dpy));
   XWindowAttributes attr;
-
   XQueryTree(dpy, root, &r, &p, &wlist, &cnt);
   for(unsigned int i = 0; i < cnt; ++i)
   {
-   XGetWindowAttributes(dpy, wlist[i], &attr);
-   if(attr.map_state == IsViewable)
-     l.push_back(wlist[i]);
+    XGetWindowAttributes(dpy, wlist[i], &attr);
+    if(attr.map_state == IsViewable)
+      l.push_back(wlist[i]);
   }
 }
 
 void SetInput(Display *dpy)
 {
-  KeyCode CK, EK, FK, HK, RK, TK, XK, ZK;
-  CK = XKeysymToKeycode(dpy, XStringToKeysym("c"));
-  EK = XKeysymToKeycode(dpy, XK_Escape);
-  FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
-  HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
-  RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
-  TK = XKeysymToKeycode(dpy, XK_Tab);
-  XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
-  ZK = XKeysymToKeycode(dpy, XStringToKeysym("z"));
-
+  const KeyCode AK = XKeysymToKeycode(dpy, XStringToKeysym("a"));
+  const KeyCode CK = XKeysymToKeycode(dpy, XStringToKeysym("c"));
+  const KeyCode EK = XKeysymToKeycode(dpy, XK_Escape);
+  const KeyCode FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
+  const KeyCode HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
+  const KeyCode RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
+  const KeyCode TK = XKeysymToKeycode(dpy, XK_Tab);
+  const KeyCode XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
+  const KeyCode ZK = XKeysymToKeycode(dpy, XStringToKeysym("z"));
+  XGrabKey(dpy, AK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, CK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, EK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, FK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
@@ -50,22 +49,21 @@ void SetInput(Display *dpy)
   XGrabKey(dpy, XK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, ZK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
+    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
+    None, None);
   XGrabButton(dpy, 3, Mod1Mask, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None);
+    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
+    None, None);
 }
 
 inline int ProcessKey(const XEvent &ev)
 {
-  //printf("keycode: %d\n", ev.xkey.keycode);
   switch(ev.xkey.keycode)
   {
-  //alt + tab : 8 + 23
   case 23:
     {
       std::vector<Window> list;
       ListWindow(list);
-
       for(Window w : list)
       if(focus != w)
       {
@@ -76,16 +74,26 @@ inline int ProcessKey(const XEvent &ev)
       }
     }
     break;
-  //alt + r : 8 + 27
   case 27:
     system("dmenu_run &");
     break;
-  //alt + f : 8 + 41
+  case 38:
+    {
+      std::vector<Window> list;
+      ListWindow(list);
+      switch(list.size())
+      {
+      case 2:
+        XMoveResizeWindow(dpy,list[0],0,0,1920/2-1,1080);
+        XMoveResizeWindow(dpy,list[1],1920/2,0,1920/2,1080);
+        break;
+      }
+    }
+    break;
   case 41:
     if(ev.xkey.subwindow != None)
       XRaiseWindow(dpy, ev.xkey.subwindow); 
     break;
-  //alt + h : 8 + 43
   case 43:
     if(ev.xkey.subwindow != None && w == None)
     {
@@ -99,7 +107,6 @@ inline int ProcessKey(const XEvent &ev)
       w = None;
     }
     break;
-  //alt + z : 8 + 52
   case 52:
     if(ev.xkey.subwindow != None && zoom == None)
     {
@@ -118,7 +125,6 @@ inline int ProcessKey(const XEvent &ev)
       zoom = None;
     }
     break;
-  //alt + x : 8 + 53
   case 53:
     if(ev.xkey.subwindow != None && close == 0)
     {
@@ -126,11 +132,9 @@ inline int ProcessKey(const XEvent &ev)
       XKillClient(dpy, ev.xkey.subwindow);
     }
     break;
-  //alt + c : 8 + 54
   case 54:
     //todo: create little window
     break;
-  //alt + esc : 8 + 9
   case 9:
     return 0;
   }
@@ -145,12 +149,9 @@ inline void ProcessMouse(const XEvent &ev)
   case ButtonPress:
     if(ev.xbutton.subwindow != None)
     {
-      #ifdef MOUSE_FOCUS
       focus = ev.xbutton.subwindow; 
       XRaiseWindow(dpy, focus);
       XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
-      #endif
-
       XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
       start = ev.xbutton;
     }

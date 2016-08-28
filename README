@@ -16,15 +16,16 @@ Files:
 Usage:
 
   Focus follows pointer.
-  Alt+Button1, drag: interactive window move
-  Alt+Button3, drag: interactive window resize
-  Alt+F   : raise focused window
-  Alt+Tab : toggle window and set focus
-  Alt+R   : run dmenu             http://tools.suckless.org/dmenu/
-  Alt+H   : show/hide window
-  Alt+Z   : zoom window
-  Alt+X   : kill window
-  Alt+Esc : exit tinywm
+  Alt+Button1, drag : interactive window move
+  Alt+Button3, drag : interactive window resize
+  Alt+A             : adjust 2 windows 
+  Alt+F             : raise focused window
+  Alt+Tab           : toggle window and set focus
+  Alt+R             : run dmenu             http://tools.suckless.org/dmenu/
+  Alt+H             : show/hide window
+  Alt+Z             : zoom window
+  Alt+X             : kill window
+  Alt+Esc           : exit tinywm
 
 Misc:
   
@@ -41,5 +42,6 @@ Misc:
       http://www.red-bean.com/~decklin/aewm/
       
 Bug:
-  now focus problem gone, when start, just hit alt + tab.
-  close one term, then close all term.
+  chrome don't like tinywm or reverse.
+  firefox works fine, but noscript don't like tinywm.
+
