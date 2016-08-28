@@ -84,7 +84,6 @@ inline int ProcessKey(const XEvent &ev)
       std::vector<Window> list;
       ListWindow(list);
       switch(list.size())
-      {
       case 2:
         if(list_toggle)
 	{
@@ -99,7 +98,6 @@ inline int ProcessKey(const XEvent &ev)
           XMoveResizeWindow(dpy,list[1],SCREEN_WIDTH/2,0,SCREEN_WIDTH/2,SCREEN_HEIGHT);
 	}
         break;
-      }
     }
     break;
   case 41:
