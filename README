@@ -42,6 +42,6 @@ Misc:
       http://www.red-bean.com/~decklin/aewm/
       
 Bug:
-  chrome don't like tinywm or reverse.
-  firefox works fine, but noscript don't like tinywm.
+  now focus problem gone, when start, just hit alt + tab.
+  close one term, then close all term.
 
