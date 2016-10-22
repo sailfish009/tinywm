@@ -14,12 +14,15 @@ int main(void)
     tv.tv_sec=0; tv.tv_usec=400000;
     FD_ZERO(&set); FD_SET(fd, &set);
     select(fd+1,&set,0,0,&tv);
-    while(XPending(dpy)) XNextEvent(dpy,&ev);
-    switch(ev.type)
+    while(XPending(dpy)) 
     {
-    case KeyPress:ProcessKey(ev);break;
-    case KeyRelease:close = 0;break;
-    default: ProcessMouse(ev);break;
+      XNextEvent(dpy,&ev);
+      switch(ev.type)
+      {
+      case KeyPress:ProcessKey(ev);break;
+      case KeyRelease:close = 0;break;
+      default: ProcessMouse(ev);break;
+      }
     }
   }
   return 0;
