@@ -58,7 +58,7 @@ void SetInput(Display *dpy)
     None, None);
 }
 
-inline int ProcessKey(const XEvent &ev)
+inline void ProcessKey(const XEvent &ev)
 {
   switch(ev.xkey.keycode)
   {
@@ -146,10 +146,8 @@ inline int ProcessKey(const XEvent &ev)
     //todo: create little window
     break;
   case 9:
-    return 0;
+    exit(0);
   }
-  
-  return 1;
 }
 
 inline void ProcessMouse(const XEvent &ev)
