@@ -1,47 +1,16 @@
-TinyWM is written by Nick Welch <nick@incise.org> in 2005 & 2011.
+tinywm tiny window manager, 8l, public domain, 2016.
 
-This software is in the public domain and is provided AS IS, with NO WARRANTY.
+alt + left  : win move
+alt + right : win resize
+alt + a     : adjust 2 windows 
+alt + f     : raise focused window
+alt + tab   : toggle window and set focus
+alt + r     : run dmenu             http://tools.suckless.org/dmenu/
+alt + h     : show/hide window
+alt + z     : zoom window
+alt + x     : kill window
+alt + esc   : exit tinywm
 
-TinyWM is a ridiculously tiny window manager implemented in nearly as few lines
-of C as possible, without being obfuscated or entirely useless. It allows you
-to move, resize, focus (sloppy), and raise windows -- that's it!  TinyWM's main
-purpose is to serve as a quick example of some window manager programming
-basics.
-
-Files:
-
-  Makefile           : highly advanced build system
-  tinywm.c, tinywm.h : the code
-
-Usage:
-
-  Focus follows pointer.
-  Alt+Button1, drag : interactive window move
-  Alt+Button3, drag : interactive window resize
-  Alt+A             : adjust 2 windows 
-  Alt+F             : raise focused window
-  Alt+Tab           : toggle window and set focus
-  Alt+R             : run dmenu             http://tools.suckless.org/dmenu/
-  Alt+H             : show/hide window
-  Alt+Z             : zoom window
-  Alt+X             : kill window
-  Alt+Esc           : exit tinywm
-
-Misc:
-  
-  Another very small window manager is failsafewm.  Originally I started
-  hacking on it, as there was quite a bit of stuff in it that I thought was
-  unneeded.  I wound up rewriting it from scratch, with just the bare
-  necessities, and that became TinyWM.
-
-    http://freshmeat.net/projects/failsafewm/
-
-  Yet another small -- but in comparison to TinyWM, big -- window manager is
-  aewm.  It's a good example for learning about writing a window manager.
-
-      http://www.red-bean.com/~decklin/aewm/
-      
-Bug:
-  now focus problem gone, when start, just hit alt + tab.
-  close one term, then close all term.
+now focus problem gone, when start, just hit alt + tab.
+close one term, then close all term.
 
