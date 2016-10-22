@@ -22,7 +22,6 @@ int main(void)
     default: ProcessMouse(ev); break;
     }
   }
-
   return 0;
 }
 
