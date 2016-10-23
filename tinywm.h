@@ -1,3 +1,4 @@
+// tinywm, 8l, zlib license, 2016
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -165,7 +166,11 @@ inline void ProcessMouse(const XEvent &ev)
     }
     break;
   case ButtonRelease:
-    start.subwindow = None;
+    {
+      start.subwindow = None;
+      if(ev.xbutton.x_root > SCREEN_WIDTH - 10)
+        XMoveResizeWindow(dpy,ev.xbutton.subwindow,SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
+    }
     break;
   case MotionNotify:
     if(start.subwindow != None)
