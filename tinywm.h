@@ -7,6 +7,7 @@
 
 #define SCREEN_WIDTH   1920
 #define SCREEN_HEIGHT  1080
+#define SIDE_WIN_RESIZE 0
 
 Display * dpy;
 Window w = None, zoom = None, focus = None;
@@ -89,14 +90,14 @@ inline void ProcessKey(const XEvent &ev)
         if(list_toggle)
 	{
 	  list_toggle = false;
-          XMoveResizeWindow(dpy,list[1],0,0,SCREEN_WIDTH/2-1,SCREEN_HEIGHT);
-          XMoveResizeWindow(dpy,list[0],SCREEN_WIDTH/2,0,SCREEN_WIDTH/2,SCREEN_HEIGHT);
+          XMoveResizeWindow(dpy,list[1],0,0,SCREEN_WIDTH*2/3-1,SCREEN_HEIGHT);
+          XMoveResizeWindow(dpy,list[0],SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
 	}
 	else
 	{
 	  list_toggle = true;
-          XMoveResizeWindow(dpy,list[0],0,0,SCREEN_WIDTH/2-1,SCREEN_HEIGHT);
-          XMoveResizeWindow(dpy,list[1],SCREEN_WIDTH/2,0,SCREEN_WIDTH/2,SCREEN_HEIGHT);
+          XMoveResizeWindow(dpy,list[0],0,0,SCREEN_WIDTH*2/3-1,SCREEN_HEIGHT);
+          XMoveResizeWindow(dpy,list[1],SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
 	}
         break;
     }
@@ -168,10 +169,12 @@ inline void ProcessMouse(const XEvent &ev)
   case ButtonRelease:
     {
       start.subwindow = None;
+#ifdef SIDE_WIN_RESIZE
       if(ev.xbutton.x_root > SCREEN_WIDTH - 5)
         XMoveResizeWindow(dpy,ev.xbutton.subwindow,SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
       else if(ev.xbutton.x_root < 5)
         XMoveResizeWindow(dpy,ev.xbutton.subwindow,0,0,SCREEN_WIDTH*2/3,SCREEN_HEIGHT);
+#endif
     }
     break;
   case MotionNotify:
