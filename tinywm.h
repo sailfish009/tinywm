@@ -168,9 +168,9 @@ inline void ProcessMouse(const XEvent &ev)
   case ButtonRelease:
     {
       start.subwindow = None;
-      if(ev.xbutton.x_root > SCREEN_WIDTH - 10)
+      if(ev.xbutton.x_root > SCREEN_WIDTH - 5)
         XMoveResizeWindow(dpy,ev.xbutton.subwindow,SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
-      if(ev.xbutton.x_root < 10)
+      else if(ev.xbutton.x_root < 5)
         XMoveResizeWindow(dpy,ev.xbutton.subwindow,0,0,SCREEN_WIDTH*2/3,SCREEN_HEIGHT);
     }
     break;
