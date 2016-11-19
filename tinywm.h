@@ -4,6 +4,7 @@
 #include <X11/keysym.h>
 #include <algorithm>
 #include <vector>
+#include <stdio.h>
 
 #define SCREEN_WIDTH   1920
 #define SCREEN_HEIGHT  1080
@@ -34,24 +35,16 @@ void ListWindow(std::vector<Window> &l)
 
 void SetInput(Display *dpy)
 {
-  const KeyCode AK = XKeysymToKeycode(dpy, XStringToKeysym("a"));
-  const KeyCode CK = XKeysymToKeycode(dpy, XStringToKeysym("c"));
-  const KeyCode EK = XKeysymToKeycode(dpy, XK_Escape);
-  const KeyCode FK = XKeysymToKeycode(dpy, XStringToKeysym("f"));
-  const KeyCode HK = XKeysymToKeycode(dpy, XStringToKeysym("h"));
-  const KeyCode RK = XKeysymToKeycode(dpy, XStringToKeysym("r"));
-  const KeyCode TK = XKeysymToKeycode(dpy, XK_Tab);
-  const KeyCode XK = XKeysymToKeycode(dpy, XStringToKeysym("x"));
-  const KeyCode ZK = XKeysymToKeycode(dpy, XStringToKeysym("z"));
-  XGrabKey(dpy, AK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, CK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, EK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, FK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, HK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, RK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, TK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, ZK, Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("a")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("c")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XK_Escape), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("f")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("h")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("r")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("t")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XK_Tab), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("x")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("z")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
     None, None);
@@ -81,6 +74,9 @@ inline void ProcessKey(const XEvent &ev)
   case 27:
     system("dmenu_run &");
     break;
+  case 28:
+    system("term &");
+    break;
   case 38:
     {
       std::vector<Window> list;
@@ -103,8 +99,9 @@ inline void ProcessKey(const XEvent &ev)
     }
     break;
   case 41:
-    if(ev.xkey.subwindow != None)
-      XRaiseWindow(dpy, ev.xkey.subwindow); 
+    system("firefox &");
+    //if(ev.xkey.subwindow != None)
+    //  XRaiseWindow(dpy, ev.xkey.subwindow); 
     break;
   case 43:
     if(ev.xkey.subwindow != None && w == None)
@@ -145,8 +142,9 @@ inline void ProcessKey(const XEvent &ev)
     }
     break;
   case 54:
-    //todo: create little window
+    system("chrome &");
     break;
+  //todo: create little window
   case 9:
     exit(0);
   }

@@ -3,9 +3,11 @@ tinywm tiny window manager, 8l, zlib license, 2016.
 alt + left  : win move
 alt + right : win resize
 alt + a     : adjust 2 windows 
-alt + f     : raise focused window
+alt + c     : run chrome
+alt + f     : run firefox
 alt + tab   : toggle window and set focus
 alt + r     : run dmenu             http://tools.suckless.org/dmenu/
+alt + t     : run "term"
 alt + h     : show/hide window
 alt + z     : zoom window
 alt + x     : kill window
