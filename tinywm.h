@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
+#include <X11/extensions/XTest.h>
 #include <algorithm>
 #include <vector>
 #include <stdio.h>
@@ -49,6 +50,12 @@ void SetInput(Display *dpy)
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
     None, None);
   XGrabButton(dpy, 3, Mod1Mask, DefaultRootWindow(dpy), True,
+    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
+    None, None);
+  XGrabButton(dpy, 8, 0, DefaultRootWindow(dpy), True,
+    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
+    None, None);
+  XGrabButton(dpy, 9, 0, DefaultRootWindow(dpy), True,
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
     None, None);
 }
@@ -157,11 +164,27 @@ inline void ProcessMouse(const XEvent &ev)
   case ButtonPress:
     if(ev.xbutton.subwindow != None)
     {
+      switch(ev.xbutton.button)
+      {
+      //page up
+      case 8:
+      XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Up), 1, CurrentTime);
+      XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Up), 0, CurrentTime);
+      break;
+      //page down
+      case 9:
+      XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 1, CurrentTime);
+      XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 0, CurrentTime);
+      break;
+
+      default:
       focus = ev.xbutton.subwindow; 
       XRaiseWindow(dpy, focus);
       XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
       XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
       start = ev.xbutton;
+      break;
+      }
     }
     break;
   case ButtonRelease:

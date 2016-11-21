@@ -1,7 +1,5 @@
 tinywm tiny window manager, 8l, zlib license, 2016.
 
-alt + left  : win move
-alt + right : win resize
 alt + a     : adjust 2 windows 
 alt + c     : run chrome
 alt + f     : run firefox
@@ -12,6 +10,11 @@ alt + h     : show/hide window
 alt + z     : zoom window
 alt + x     : kill window
 alt + esc   : exit tinywm
+
+alt + left  : win move
+alt + right : win resize
+mouse 4     : page down
+mouse 5     : page up 
 
 now focus problem gone, when start, just hit alt + tab.
 close one term, then close all term.
