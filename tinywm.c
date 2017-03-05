@@ -1,4 +1,4 @@
-// tinywm, 8l, zlib license, 2016.
+// tinywm, 8l, zlib license, 2016-2017.
 #include "tinywm.h"
 
 int main(void)

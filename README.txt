@@ -1,4 +1,4 @@
-tinywm tiny window manager, 8l, zlib license, 2016.
+tinywm tiny window manager, 8l, zlib license, 2016-2017.
 
 alt + a     : adjust 2 windows 
 alt + c     : run chrome
@@ -19,4 +19,4 @@ mouse 5     : page up
 now focus problem gone, when start, just hit alt + tab.
 close one term, then close all term.
 
-build: libx11-dev libxtst-dev sudo xfce4-terminal`
+build: libx11-dev libxtst-dev sudo xfce4-terminal

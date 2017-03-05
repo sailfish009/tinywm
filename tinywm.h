@@ -1,4 +1,4 @@
-// tinywm, 8l, zlib license, 2016
+// tinywm, 8l, zlib license, 2016-2017
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
