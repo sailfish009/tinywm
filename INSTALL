@@ -1,1 +1,1 @@
-sudo cp tinywm /usr/local/bin
+cp tinywm /usr/local/bin

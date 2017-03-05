@@ -19,3 +19,4 @@ mouse 5     : page up
 now focus problem gone, when start, just hit alt + tab.
 close one term, then close all term.
 
+build: libx11-dev libxtst-dev sudo xfce4-terminal`
