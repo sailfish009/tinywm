@@ -60,6 +60,19 @@ void SetInput(Display *dpy)
     None, None);
 }
 
+
+inline void ProcessWin()
+{
+  std::vector<Window> list;
+  ListWindow(list);
+  for(Window w : list)
+	{
+    XSetWindowBorder(dpy, w, BlackPixel(dpy, DefaultScreen(dpy))); 
+		XSetWindowBorderWidth(dpy, w, 1);
+	}
+}
+
+
 inline void ProcessKey(const XEvent &ev)
 {
   switch(ev.xkey.keycode)
@@ -71,9 +84,9 @@ inline void ProcessKey(const XEvent &ev)
       for(Window w : list)
       if(focus != w)
       {
-	focus = w;  
+       	focus = w;  
         XRaiseWindow(dpy, focus);
-	XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
+	      XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
         break;
       }
     }
