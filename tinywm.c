@@ -3,7 +3,6 @@
 
 int main(void)
 {
-  XEvent ev;
   struct timeval tv;
   fd_set set;
   dpy = XOpenDisplay(0x0);

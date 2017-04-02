@@ -12,6 +12,7 @@
 #define SIDE_WIN_RESIZE 0
 
 Display * dpy;
+XEvent ev;
 Window w = None, zoom = None, focus = None;
 XWindowAttributes attr;
 XButtonEvent start{0};
@@ -71,15 +72,16 @@ void SetInput(Display *dpy)
 }
 
 
-inline void ProcessWin()
+void ProcessWin()
 {
+  XNextEvent(dpy,&ev);
   std::vector<Window> list;
   ListWindow(list);
   for(Window w : list)
-	{
+  {
     XSetWindowBorder(dpy, w, BlackPixel(dpy, DefaultScreen(dpy))); 
-		XSetWindowBorderWidth(dpy, w, 1);
-	}
+    XSetWindowBorderWidth(dpy, w, 1);
+  }
 }
 
 
