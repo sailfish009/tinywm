@@ -58,6 +58,16 @@ void SetInput(Display *dpy)
   XGrabButton(dpy, 9, 0, DefaultRootWindow(dpy), True,
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
     None, None);
+
+  Window root = RootWindow(dpy, DefaultScreen(dpy));
+  XSetWindowBackground(dpy, root, 0x0192c6);
+  #if 0
+  XEvent event;
+  event.type = Expose;
+  event.xexpose.window = root;
+  XSendEvent(dpy, root, False, ExposureMask, &event);
+  XSync(dpy, 0);
+  #endif
 }
 
 
@@ -168,6 +178,7 @@ inline void ProcessKey(const XEvent &ev)
   case 9:
     exit(0);
   }
+  ProcessWin();
 }
 
 inline void ProcessMouse(const XEvent &ev)

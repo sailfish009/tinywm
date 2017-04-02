@@ -21,7 +21,6 @@ int main(void)
     case KeyRelease:close = 0;break;
     default: ProcessMouse(ev);break;
     }
-		ProcessWin();
   }
   return 0;
 }
