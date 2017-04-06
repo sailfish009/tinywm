@@ -1,6 +1,6 @@
 tinywm tiny window manager, 8l, zlib license, 2016-2017.
 
-![screenshot](http://plan9assembler.files.wordpress.com/2017/04/desktop.png)
+http://plan9assembler.files.wordpress.com/2017/04/desktop.jpg
 
 alt + a     : adjust 2 windows 
 alt + c     : run chrome
