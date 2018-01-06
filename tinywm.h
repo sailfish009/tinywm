@@ -1,4 +1,4 @@
-// tinywm, 8l, zlib license, 2016-2017
+// tinywm, 8l, zlib license, 2016-2018
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -13,7 +13,7 @@
 
 Display * dpy;
 XEvent ev;
-Window w = None, zoom = None, focus = None;
+Window w = None, zoom = None, focus = None, root = None;
 XWindowAttributes attr;
 XButtonEvent start{0};
 unsigned short rect[4]={0};
@@ -24,8 +24,8 @@ void ListWindow(std::vector<Window> &l)
 {
   unsigned int cnt = 0;
   Window r, p, *wlist;
-  Window root = RootWindow(dpy, DefaultScreen(dpy));
   XWindowAttributes attr;
+  root = RootWindow(dpy, DefaultScreen(dpy));
   XQueryTree(dpy, root, &r, &p, &wlist, &cnt);
   for(unsigned int i = 0; i < cnt; ++i)
   {
@@ -234,6 +234,12 @@ inline void ProcessMouse(const XEvent &ev)
         attr.y + (start.button==1 ? ydiff : 0),
         std::max(1, attr.width + (start.button==3 ? xdiff : 0)),
         std::max(1, attr.height + (start.button==3 ? ydiff : 0)));     
+
+      XEvent event;
+      event.type = Expose;
+      event.xexpose.window = root;
+      XSendEvent(dpy, root, False, ExposureMask, &event);
+      XSync(dpy, 0);
     }
     break;
   }
