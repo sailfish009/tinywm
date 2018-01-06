@@ -1,4 +1,4 @@
-tinywm tiny window manager, 8l, zlib license, 2016-2017.
+tinywm tiny window manager, 8l, zlib license, 2016-2018
 
 http://plan9assembler.files.wordpress.com/2017/04/desktop.jpg
 

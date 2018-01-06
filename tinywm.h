@@ -25,7 +25,6 @@ void ListWindow(std::vector<Window> &l)
   unsigned int cnt = 0;
   Window r, p, *wlist;
   XWindowAttributes attr;
-  root = RootWindow(dpy, DefaultScreen(dpy));
   XQueryTree(dpy, root, &r, &p, &wlist, &cnt);
   for(unsigned int i = 0; i < cnt; ++i)
   {
@@ -37,6 +36,8 @@ void ListWindow(std::vector<Window> &l)
 
 void SetInput(Display *dpy)
 {
+  root = RootWindow(dpy, DefaultScreen(dpy));
+
   XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("a")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("c")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(dpy, XKeysymToKeycode(dpy, XK_Escape), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
@@ -60,7 +61,6 @@ void SetInput(Display *dpy)
     ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
     None, None);
 
-  Window root = RootWindow(dpy, DefaultScreen(dpy));
   XSetWindowBackground(dpy, root, 0x0192c6);
   #if 0
   XEvent event;
