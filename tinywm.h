@@ -62,13 +62,7 @@ void SetInput(Display *dpy)
     None, None);
 
   XSetWindowBackground(dpy, root, 0x0192c6);
-  #if 0
-  XEvent event;
-  event.type = Expose;
-  event.xexpose.window = root;
-  XSendEvent(dpy, root, False, ExposureMask, &event);
-  XSync(dpy, 0);
-  #endif
+  XClearWindow(dpy, root);
 }
 
 
@@ -132,8 +126,6 @@ inline void ProcessKey(const XEvent &ev)
     break;
   case 41:
     system("firefox &");
-    //if(ev.xkey.subwindow != None)
-    //  XRaiseWindow(dpy, ev.xkey.subwindow); 
     break;
   case 43:
     if(ev.xkey.subwindow != None && w == None)
