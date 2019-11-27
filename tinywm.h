@@ -11,6 +11,16 @@
 #define SCREEN_HEIGHT  1080
 #define SIDE_WIN_RESIZE 0
 
+#define SET_KEY(dpy, c) \
+  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym(c)), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync)
+
+#define SET_KEY2(dpy, c) \
+  XGrabKey(dpy, XKeysymToKeycode(dpy, c), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync)
+
+#define SET_KEY3(dpy, a, b) \
+  XGrabButton(dpy, a, b, DefaultRootWindow(dpy), True, \
+    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, None, None)
+
 Display * dpy;
 XEvent ev;
 Window w = None, zoom = None, focus = None, root = None;
@@ -37,32 +47,16 @@ void ListWindow(std::vector<Window> &l)
 void SetInput(Display *dpy)
 {
   root = RootWindow(dpy, DefaultScreen(dpy));
-
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("a")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("c")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XK_Escape), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("f")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("h")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("r")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("t")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XK_Tab), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("x")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabKey(dpy, XKeysymToKeycode(dpy, XStringToKeysym("z")), Mod1Mask,DefaultRootWindow(dpy), True, GrabModeAsync, GrabModeAsync);
-  XGrabButton(dpy, 1, Mod1Mask, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
-    None, None);
-  XGrabButton(dpy, 3, Mod1Mask, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
-    None, None);
-  XGrabButton(dpy, 8, 0, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
-    None, None);
-  XGrabButton(dpy, 9, 0, DefaultRootWindow(dpy), True,
-    ButtonPressMask|ButtonReleaseMask|PointerMotionMask, GrabModeAsync, GrabModeAsync, 
-    None, None);
-
+  SET_KEY(dpy, "a");  SET_KEY(dpy, "c");  SET_KEY(dpy, "f");  SET_KEY(dpy, "h");  
+  SET_KEY(dpy, "r");  SET_KEY(dpy, "t");  SET_KEY(dpy, "x");  SET_KEY(dpy, "z");
+  SET_KEY2(dpy, XK_Escape); SET_KEY2(dpy, XK_Tab);
+  SET_KEY3(dpy, 1, Mod1Mask); SET_KEY3(dpy, 3, Mod1Mask); SET_KEY3(dpy, 8, 0); SET_KEY3(dpy, 9, 0);
   XSetWindowBackground(dpy, root, 0x0192c6);
   XClearWindow(dpy, root);
+
+  system("xclock &");
+  system("term &");
+  system("sct 2300");
 }
 
 
@@ -92,7 +86,7 @@ inline void ProcessKey(const XEvent &ev)
       {
        	focus = w;  
         XRaiseWindow(dpy, focus);
-	      XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
+	    XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
         break;
       }
     }
@@ -110,17 +104,17 @@ inline void ProcessKey(const XEvent &ev)
       switch(list.size())
       case 2:
         if(list_toggle)
-	{
-	  list_toggle = false;
+        {
+          list_toggle = false;
           XMoveResizeWindow(dpy,list[1],0,0,SCREEN_WIDTH*2/3-1,SCREEN_HEIGHT);
           XMoveResizeWindow(dpy,list[0],SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
-	}
-	else
-	{
-	  list_toggle = true;
+        }
+        else
+        {
+          list_toggle = true;
           XMoveResizeWindow(dpy,list[0],0,0,SCREEN_WIDTH*2/3-1,SCREEN_HEIGHT);
           XMoveResizeWindow(dpy,list[1],SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
-	}
+        }
         break;
     }
     break;
