@@ -27,7 +27,7 @@ Window w = None, zoom = None, focus = None, root = None;
 XWindowAttributes attr;
 XButtonEvent start{0};
 unsigned short rect[4]={0};
-bool close;
+bool b_close = 0;
 bool list_toggle;
 
 void ListWindow(std::vector<Window> &l)
@@ -153,9 +153,9 @@ inline void ProcessKey(const XEvent &ev)
     }
     break;
   case 53:
-    if(ev.xkey.subwindow != None && close == 0)
+    if(ev.xkey.subwindow != None && b_close == 0)
     {
-      close = 1;
+      b_close = 1;
       XKillClient(dpy, ev.xkey.subwindow);
     }
     break;
@@ -163,8 +163,8 @@ inline void ProcessKey(const XEvent &ev)
     system("chrome &");
     break;
   //todo: create little window
-  case 9:
-    exit(0);
+  // case 9:
+  //   exit(0);
   }
   ProcessWin();
 }
