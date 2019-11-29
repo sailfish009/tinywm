@@ -12,7 +12,7 @@ void *w_thread(Display* dpy, XEvent *ev)
       switch(ev->type)
       {
       case KeyPress:ProcessKey(*ev);break;
-      case KeyRelease:close = 0;break;
+      case KeyRelease:b_close = 0;break;
       default: ProcessMouse(*ev);break;
       }
     }
