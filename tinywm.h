@@ -30,20 +30,6 @@ unsigned short rect[4]={0};
 bool b_close = 0;
 bool list_toggle;
 
-void ListWindow(std::vector<Window> &l)
-{
-  unsigned int cnt = 0;
-  Window r, p, *wlist;
-  XWindowAttributes attr;
-  XQueryTree(dpy, root, &r, &p, &wlist, &cnt);
-  for(unsigned int i = 0; i < cnt; ++i)
-  {
-    XGetWindowAttributes(dpy, wlist[i], &attr);
-    if(attr.map_state == IsViewable)
-      l.push_back(wlist[i]);
-  }
-}
-
 void SetInput(Display *dpy)
 {
   root = RootWindow(dpy, DefaultScreen(dpy));
@@ -59,64 +45,15 @@ void SetInput(Display *dpy)
   system("sct 2300");
 }
 
-
-void ProcessWin()
-{
-  XNextEvent(dpy,&ev);
-  std::vector<Window> list;
-  ListWindow(list);
-  for(Window w : list)
-  {
-    XSetWindowBorder(dpy, w, BlackPixel(dpy, DefaultScreen(dpy))); 
-    XSetWindowBorderWidth(dpy, w, 1);
-  }
-}
-
-
 inline void ProcessKey(const XEvent &ev)
 {
   switch(ev.xkey.keycode)
   {
-  case 23:
-    {
-      std::vector<Window> list;
-      ListWindow(list);
-      for(Window w : list)
-      if(focus != w)
-      {
-       	focus = w;  
-        XRaiseWindow(dpy, focus);
-	    XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
-        break;
-      }
-    }
-    break;
   case 27:
     system("dmenu_run &");
     break;
   case 28:
     system("term &");
-    break;
-  case 38:
-    {
-      std::vector<Window> list;
-      ListWindow(list);
-      switch(list.size())
-      case 2:
-        if(list_toggle)
-        {
-          list_toggle = false;
-          XMoveResizeWindow(dpy,list[1],0,0,SCREEN_WIDTH*2/3-1,SCREEN_HEIGHT);
-          XMoveResizeWindow(dpy,list[0],SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
-        }
-        else
-        {
-          list_toggle = true;
-          XMoveResizeWindow(dpy,list[0],0,0,SCREEN_WIDTH*2/3-1,SCREEN_HEIGHT);
-          XMoveResizeWindow(dpy,list[1],SCREEN_WIDTH*2/3,0,SCREEN_WIDTH*1/3,SCREEN_HEIGHT);
-        }
-        break;
-    }
     break;
   case 41:
     system("firefox &");
@@ -162,11 +99,7 @@ inline void ProcessKey(const XEvent &ev)
   case 54:
     system("chrome &");
     break;
-  //todo: create little window
-  // case 9:
-  //   exit(0);
   }
-  ProcessWin();
 }
 
 inline void ProcessMouse(const XEvent &ev)
