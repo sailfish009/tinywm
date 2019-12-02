@@ -99,6 +99,12 @@ inline void ProcessKey(const XEvent &ev)
   case 54:
     system("chrome &");
     break;
+  case 9:
+    // log out
+    // system("gnome-session-quit");
+    // screen lock
+    system("mate-screensaver-command -l");
+    break;
   }
 }
 
