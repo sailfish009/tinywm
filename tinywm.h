@@ -7,7 +7,7 @@
 #include <vector>
 #include <stdio.h>
 
-#define SCREEN_WIDTH   1920
+#define SCREEN_WIDTH   (1920 * 2)
 #define SCREEN_HEIGHT  1080
 #define SIDE_WIN_RESIZE 0
 
