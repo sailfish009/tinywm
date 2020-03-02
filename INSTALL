@@ -1,1 +1,2 @@
 cp tinywm /usr/local/bin
+cp win /usr/local/bin

@@ -40,10 +40,33 @@ void SetInput(Display *dpy)
   XSetWindowBackground(dpy, root, 0x0192c6);
   XClearWindow(dpy, root);
 
+  system("win &");
   system("xclock &");
   system("term &");
   system("sct 2300");
 }
+
+// inline void ProcessWin(const XEvent &ev)
+// {
+//   if( ev.type == ButtonPress && ev.xbutton.subwindow != None)
+//   {
+//     int x_pos = ev.xbutton.x_root;
+//     int y_pos = ev.xbutton.y_root;
+//     XWindowAttributes xwa;
+//     XGetWindowAttributes(dpy, ev.xbutton.subwindow, &xwa);
+//     if( 
+//         (x_pos > xwa.x && x_pos < (xwa.x + xwa.width)) && 
+//         (y_pos > xwa.y && y_pos < (xwa.y + xwa.height))
+//       )
+//     {
+//       focus = ev.xbutton.subwindow; 
+//       XRaiseWindow(dpy, focus);
+//       XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
+//       XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
+//       start = ev.xbutton;
+//     }
+//   }
+// }
 
 inline void ProcessKey(const XEvent &ev)
 {
