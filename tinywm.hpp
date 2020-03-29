@@ -1,11 +1,15 @@
 // tinywm, 8l, zlib license, 2016-2018
+#include <ctype.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/extensions/XTest.h>
 #include <algorithm>
+#include <string>
 #include <vector>
-#include <stdio.h>
+#include <thread>
+#include <chrono>
 
 #define SCREEN_WIDTH   (1920 * 2)
 #define SCREEN_HEIGHT  1080
@@ -29,20 +33,67 @@ XButtonEvent start{0};
 unsigned short rect[4]={0};
 bool b_close = 0;
 bool list_toggle;
+int win_count = 0;
+
+void ListWindow(std::vector<Window> &l)
+{
+  unsigned int cnt = 0;
+  Window r, p, *wlist;
+  XWindowAttributes attr;
+  XQueryTree(dpy, root, &r, &p, &wlist, &cnt);
+  for(unsigned int i = 0; i < cnt; ++i)
+  {
+    XGetWindowAttributes(dpy, wlist[i], &attr);
+    if(attr.map_state == IsViewable)
+      l.push_back(wlist[i]);
+  }
+}
+
+void run(const char* cmd)
+{
+  system(cmd);
+  std::this_thread::sleep_for(std::chrono::milliseconds(500));
+  ++win_count;
+  std::vector<Window> wlist;
+  ListWindow(wlist);
+  std::string win_name = std::to_string(win_count);
+  for(Window w : wlist)
+  {
+    char *name;
+    XFetchName(dpy, w, &name);
+    if(isdigit(name[0])==0)
+    {
+      XStoreName(dpy, w, win_name.c_str());
+      break;
+    }
+  }
+}
+
+void debug()
+{
+  std::vector<Window> wlist;
+  ListWindow(wlist);
+  for(Window w : wlist)
+  {
+    char *name;
+    XFetchName(dpy, w, &name);
+    // print("name: %s\n",name)
+  }
+}
 
 void SetInput(Display *dpy)
 {
   root = RootWindow(dpy, DefaultScreen(dpy));
   SET_KEY(dpy, "a");  SET_KEY(dpy, "c");  SET_KEY(dpy, "f");  SET_KEY(dpy, "h");  
   SET_KEY(dpy, "r");  SET_KEY(dpy, "t");  SET_KEY(dpy, "x");  SET_KEY(dpy, "z");
-  SET_KEY2(dpy, XK_Escape); SET_KEY2(dpy, XK_Tab);
-  SET_KEY3(dpy, 1, Mod1Mask); SET_KEY3(dpy, 3, Mod1Mask); SET_KEY3(dpy, 8, 0); SET_KEY3(dpy, 9, 0);
+  SET_KEY2(dpy, XK_Escape); SET_KEY2(dpy, XK_Tab); SET_KEY3(dpy, 1, Mod1Mask); 
+  SET_KEY3(dpy, 3, Mod1Mask); SET_KEY3(dpy, 8, 0); SET_KEY3(dpy, 9, 0);
   XSetWindowBackground(dpy, root, 0x0192c6);
   XClearWindow(dpy, root);
 
-  system("win &");
-  system("xclock &");
-  system("term &");
+  run("xclock &");
+  run("term &");
+  run("win &");
   system("sct 2300");
 }
 
@@ -190,6 +241,24 @@ inline void ProcessMouse(const XEvent &ev)
       XSync(dpy, 0);
     }
     break;
+  }
+}
+
+void *w_thread(Display* dpy, XEvent *ev)
+{
+  for(;;)
+  {
+    while(XCheckMaskEvent(dpy, 0xFFFFFFFF, ev))
+    {
+      switch(ev->type)
+      {
+      case KeyPress:ProcessKey(*ev);break;
+      case KeyRelease:b_close = 0;break;
+      default: ProcessMouse(*ev);break;
+      }
+    }
+    std::this_thread::sleep_for(std::chrono::nanoseconds(1000000));
+    // TODO semaphore and keyboard signal
   }
 }
 
