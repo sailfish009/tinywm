@@ -189,6 +189,13 @@ inline void ProcessMouse(const XEvent &ev)
   case ButtonPress:
     if(ev.xbutton.subwindow != None)
     {
+      auto lambda =[](Display *d, const XEvent &e, Window &f, XWindowAttributes &a)
+      {
+        f = e.xbutton.subwindow; 
+        XRaiseWindow(d, f);
+        XSetInputFocus(d, f, RevertToParent, CurrentTime);
+        XGetWindowAttributes(d, e.xbutton.subwindow, &a);
+      };
       switch(ev.xbutton.button)
       {
       //page up
@@ -196,17 +203,21 @@ inline void ProcessMouse(const XEvent &ev)
       XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Up), 1, CurrentTime);
       XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Up), 0, CurrentTime);
       break;
+
       //page down
       case 9:
+      // to focus window without use window title bar
+      if(focus != ev.xbutton.subwindow) lambda(dpy, ev, focus, attr);
       XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 1, CurrentTime);
       XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 0, CurrentTime);
       break;
 
       default:
-      focus = ev.xbutton.subwindow; 
-      XRaiseWindow(dpy, focus);
-      XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
-      XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
+      lambda(dpy, ev, focus, attr);
+      // focus = ev.xbutton.subwindow; 
+      // XRaiseWindow(dpy, focus);
+      // XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
+      // XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
       start = ev.xbutton;
       break;
       }

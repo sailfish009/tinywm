@@ -70,11 +70,11 @@ int main(void)
     "edit",
     "file",
     "mail",
-    "file",
     "sctn",
     "sctl",
     "hide",
-    "focus"
+    "focus",
+    "v0.1"
   };
   int s;
 
@@ -108,8 +108,7 @@ int main(void)
       for(int i=0; i < n_program; ++i)
       {
         XDrawRectangle(d, w, DefaultGC(d, s), 0, rw*i,  rw, rw);
-        if(i != (n_program -1))
-          XDrawString(d, w, DefaultGC(d, s), text_x_offset, rw*i + text_y_offset, w_name[i], strlen(w_name[i]));
+        XDrawString(d, w, DefaultGC(d, s), text_x_offset, rw*i + text_y_offset, w_name[i], strlen(w_name[i]));
       }
 
       // const char* current_t = current_time();
