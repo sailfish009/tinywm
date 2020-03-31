@@ -35,6 +35,7 @@ bool b_close = 0;
 bool list_toggle;
 int win_count = 0;
 
+#if false
 void ListWindow(std::vector<Window> &l)
 {
   unsigned int cnt = 0;
@@ -80,6 +81,7 @@ void debug()
     // print("name: %s\n",name)
   }
 }
+#endif
 
 void SetInput(Display *dpy)
 {
@@ -91,9 +93,9 @@ void SetInput(Display *dpy)
   XSetWindowBackground(dpy, root, 0x0192c6);
   XClearWindow(dpy, root);
 
-  run("xclock &");
-  run("term &");
-  run("win &");
+  system("xclock &");
+  system("term &");
+  system("win &");
   system("sct 2300");
 }
 
@@ -214,10 +216,6 @@ inline void ProcessMouse(const XEvent &ev)
 
       default:
       lambda(dpy, ev, focus, attr);
-      // focus = ev.xbutton.subwindow; 
-      // XRaiseWindow(dpy, focus);
-      // XSetInputFocus(dpy, focus, RevertToParent, CurrentTime);
-      // XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
       start = ev.xbutton;
       break;
       }

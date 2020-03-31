@@ -1,5 +1,5 @@
 PREFIX?=/usr/X11R6
-CFLAGS?=-Os -pedantic -Wall -std=c++20 -Wno-unused-result
+CFLAGS?=-Os -pedantic -Wall -std=c++2a -Wno-unused-result
 LDFLAGS?=-L$(PREFIX)/lib -lX11
 
 all:
