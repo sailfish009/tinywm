@@ -209,9 +209,15 @@ inline void ProcessMouse(const XEvent &ev)
       //page down
       case 9:
       // to focus window without use window title bar
-      if(focus != ev.xbutton.subwindow) lambda(dpy, ev, focus, attr);
-      XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 1, CurrentTime);
-      XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 0, CurrentTime);
+      if(focus != ev.xbutton.subwindow) 
+      {
+        lambda(dpy, ev, focus, attr);
+      }
+      else
+      {
+        XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 1, CurrentTime);
+        XTestFakeKeyEvent(dpy,XKeysymToKeycode(dpy, XK_Page_Down), 0, CurrentTime);
+      }
       break;
 
       default:
