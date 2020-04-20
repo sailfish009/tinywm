@@ -1,2 +1,3 @@
-cp tinywm /usr/local/bin
-cp win /usr/local/bin
+sudo cp tinywm /usr/local/bin
+sudo cp win /usr/local/bin
+sudo cp tinywm.desktop /usr/share/xsessions
