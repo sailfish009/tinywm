@@ -17,7 +17,7 @@ void run(int i)
       system("firefox &");
       break;
   case 1:
-      system("term &");
+      system("mate-terminal &");
       break;
   case 2:
       system("gedit &");
@@ -29,7 +29,7 @@ void run(int i)
       system("thunderbird &");
       break;
   case 5:
-      system("sct &");
+      system("vlc &");
       break;
   case 6:
       system("sct 2300 &");
@@ -70,7 +70,7 @@ int main(void)
     "edit",
     "file",
     "mail",
-    "sctn",
+    "music",
     "sctl",
     "hide",
     "focus",
