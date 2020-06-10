@@ -11,7 +11,8 @@
 #include <thread>
 #include <chrono>
 
-#define SCREEN_WIDTH   (1920 * 2)
+// TODO: virtual desktop
+#define SCREEN_WIDTH   (1920 * 2) * 2
 #define SCREEN_HEIGHT  1080
 #define SIDE_WIN_RESIZE 0
 
