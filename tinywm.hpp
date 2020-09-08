@@ -95,8 +95,10 @@ void SetInput(Display *dpy)
   XClearWindow(dpy, root);
 
   system("xclock &");
+  // term: sym link to your favorite terminal
   system("term &");
   system("win &");
+  // sct: https://github.com/Tookmund/setcolortemperature
   system("sct 2300");
 }
 
